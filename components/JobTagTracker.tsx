@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useMemo } from 'react';
+import Image from 'next/image';
 import { Search, Copy, Sun, Moon, Sparkles, ArrowRight, Check } from 'lucide-react';
 import Toast from './Toast';
 import ConfettiBurst from './ConfettiBurst';
@@ -57,6 +58,15 @@ const CATEGORIZED_TAGS = {
     'LIME', 'SHAP', 'Model Interpretability', 'AI Monitoring',
     'AI Infrastructure', 'MLOps', 'Model Registry', 'Feature Store',
     'AI Pipeline', 'AutoML', 'Hyperband', 'Bayesian Optimization',
+    'RAG (Retrieval-Augmented Generation)', 'LangChain', 'LangGraph', 'Vector Databases',
+    'Pinecone', 'pgvector', 'Embeddings', 'Function Calling', 'Agentic AI', 'LangSmith',
+    'LLM Evaluation', 'LoRA Fine-tuning', 'QLoRA', 'RLHF', 'vLLM', 'ChromaDB', 'Weaviate',
+    'FAISS', 'Model Context Protocol (MCP)', 'AI Guardrails', 'Semantic Search',
+    'Retrieval Evaluation', 'Reranking', 'Google Gemini', 'Llama Models', 'Mistral AI',
+    'Ollama', 'Vercel AI SDK', 'CrewAI', 'DPO Fine-tuning', 'Inference Optimization',
+    'Structured LLM Outputs', 'Tool Calling', 'AI Observability', 'AWS Bedrock', 'Vertex AI',
+    'Cohere API', 'AI Cost Optimization', 'Hallucination Detection', 'Vector Embeddings',
+    'Context Window Management', 'Multi-Agent Systems', 'AI Workflow Automation',
   ],
   'Web Development': [
     'Full Stack Development', 'Frontend Development', 'Backend Development',
@@ -79,6 +89,13 @@ const CATEGORIZED_TAGS = {
     'GitLab CI', 'Jenkins', 'DevOps', 'Infrastructure as Code', 'Terraform',
     'AWS', 'Azure', 'Google Cloud', 'DigitalOcean', 'Heroku', 'Vercel',
     'Netlify', 'Web3 Development', 'Solidity', 'Smart Contracts', 'Ethereum',
+    'MERN Stack', 'NestJS', 'Fastify', 'Prisma ORM', 'Mongoose', 'Redis',
+    'TanStack Query', 'Zustand', 'Redux Toolkit', 'NextAuth', 'React Server Components',
+    'Server-Side Rendering (SSR)', 'Static Site Generation (SSG)', 'shadcn/ui', 'Radix UI',
+    'Supabase', 'Zod Validation', 'React Hook Form', 'tRPC', 'BFF Pattern',
+    'Git Version Control', 'Cloudflare', 'Railway', 'Render', 'Bun Runtime',
+    'Monorepo (Turborepo)', 'ESLint & Prettier', 'Sentry', 'Database Indexing',
+    'ORM Development', 'RESTful API Development', 'API Pagination', 'Observability',
   ],
   'Data & Analytics': [
     'Data Engineering', 'Data Mining', 'Data Preprocessing', 'Dataset Creation',
@@ -96,6 +113,8 @@ const CATEGORIZED_TAGS = {
     'PCA', 'UMAP', 't-SNE', 'Feature Selection', 'Outlier Detection',
     'Anomaly Detection', 'Survival Analysis', 'Network Analysis', 'Graph Analytics',
     'Knowledge Graphs', 'Geospatial Analysis', 'GIS', 'Mapping', 'Data Storytelling',
+    'Redis Caching', 'Vector Search', 'Elasticsearch', 'DuckDB', 'dbt', 'Apache Iceberg',
+    'MongoDB Atlas Vector Search', 'Real-time Dashboards', 'Data Modeling',
   ],
   'Blockchain & Web3': [
     'Blockchain', 'Web3', 'Solidity', 'Ethereum', 'Smart Contracts',
@@ -113,6 +132,13 @@ const CATEGORIZED_TAGS = {
     'Cryptography', 'Public Key Cryptography', 'Hashing', 'Digital Signatures',
     'Consensus Mechanisms', 'Proof of Work', 'Proof of Stake', 'Byzantine Fault Tolerance',
     'Mining', 'Staking Pools', 'Validator Nodes', 'Light Clients',
+    'Wagmi', 'Viem', 'RainbowKit', 'WalletConnect', 'IPFS', 'The Graph', 'Move Language',
+    'Aptos', 'Sui Blockchain', 'Zero-Knowledge Proofs (ZK)', 'zkSync', 'Arbitrum',
+    'Optimism', 'Base Chain', 'MEV Awareness', 'OpenZeppelin', 'Upgradeable Smart Contracts',
+    'Tokenomics', 'On-chain Analytics', 'Alchemy', 'Infura', 'Subgraph Development',
+    'Anchor (Solana)', 'Slither', 'Account Abstraction', 'ERC-4337', 'Full Stack Web3',
+    'Smart Contract Testing', 'Blockchain Indexing', 'Wallet UX', 'Transaction State Handling',
+    'DeFi Protocol Development', 'On-chain Data Engineering',
   ],
   'Content & Writing': [
     'AI Content Writing', 'AI Copywriting', 'Content Generation',
@@ -161,6 +187,8 @@ const CATEGORIZED_TAGS = {
     'Webhook Management', 'Event-driven Architecture', 'Message Queues',
     'Pub/Sub Patterns', 'Event Sourcing', 'CQRS', 'Serverless Functions',
     'AWS Lambda', 'Google Cloud Functions', 'Azure Functions', 'Function Deployment',
+    'tRPC API', 'Anthropic API', 'OpenAI API Integration', 'Webhooks Architecture',
+    'Stripe Connect', 'Supabase Integration', 'Algolia Search', 'Twilio SMS API',
   ],
   'QA & Testing': [
     'AI Quality Assurance', 'AI Testing', 'Prompt Testing', 'Model Evaluation',
@@ -176,6 +204,8 @@ const CATEGORIZED_TAGS = {
     'Cucumber', 'Gherkin', 'Robot Framework', 'Postman API Testing',
     'REST Assured', 'Mockito', 'Mock Testing', 'Stubbing', 'Database Testing',
     'Performance Profiling', 'Memory Testing', 'UI Testing',
+    'LLM Regression Testing', 'AI Eval Frameworks', 'Contract Fuzz Testing',
+    'Foundry Testing', 'Invariant Testing',
   ],
   'Other Skills': [
     'AI Chatbot Development', 'AI Agent Development', 'AI Automation',
@@ -195,8 +225,59 @@ const CATEGORIZED_TAGS = {
     'Compliance', 'GDPR', 'HIPAA', 'Data Privacy', 'Information Security',
     'Security Governance', 'Risk Management', 'Incident Response',
     'Forensics', 'Malware Analysis', 'Vulnerability Assessment',
+    'Open Source Contributions', 'Technical Portfolio', 'Upwork Profile Optimization',
+    'LinkedIn for Developers', 'Remote Team Collaboration', 'Freelance Client Communication',
+    'Technical Interview Prep', 'System Design Interviews', 'Scalable Architecture',
+    'Freelance Proposal Writing', 'Job Application Optimization',
+  ],
+  'MERN & Full Stack Jobs': [
+    'Full Stack TypeScript', 'MEAN Stack', 'T3 Stack', 'MongoDB Atlas',
+    'Express Middleware', 'State Management Patterns', 'Component Architecture',
+    'Production Deployment', 'Performance Tuning', 'Caching with Redis',
+    'Authentication Flows', 'Role-Based Access Control', 'File Upload Systems',
+    'Real-time Chat Apps', 'E-commerce Full Stack', 'SaaS Application Development',
+    'Admin Dashboard Development', 'Payment Integration', 'Email Notification Systems',
+    'Background Job Processing', 'Queue Systems (BullMQ)', 'WebSocket Real-time Apps',
+    'Headless CMS Integration', 'Multi-tenant Architecture', 'API Rate Limiting Design',
+    'Error Handling Patterns', 'Logging & Monitoring', 'Cloud-native Full Stack',
   ],
 };
+
+const TAGS_VERSION = '3';
+
+function buildDefaultTags(): JobTag[] {
+  const initialTags: JobTag[] = [];
+  Object.entries(CATEGORIZED_TAGS).forEach(([category, categoryTags]) => {
+    categoryTags.forEach((tag) => {
+      initialTags.push({
+        id: `tag-${initialTags.length}`,
+        tag,
+        category,
+        completed: false,
+      });
+    });
+  });
+  return initialTags;
+}
+
+function mergeStoredTags(stored: JobTag[]): JobTag[] {
+  const defaults = buildDefaultTags();
+  const storedKeys = new Set(stored.map(t => `${t.category}::${t.tag}`));
+  let nextId = stored.reduce((max, t) => {
+    const num = parseInt(t.id.replace('tag-', ''), 10);
+    return Number.isNaN(num) ? max : Math.max(max, num);
+  }, -1) + 1;
+
+  const newTags = defaults
+    .filter(d => !storedKeys.has(`${d.category}::${d.tag}`))
+    .map(d => ({
+      ...d,
+      id: `tag-${nextId++}`,
+      completed: false,
+    }));
+
+  return [...stored, ...newTags];
+}
 
 const MOTIVATIONAL_MESSAGES = [
   '🎯 Great start!',
@@ -287,13 +368,15 @@ export default function JobTagTracker({ isDark }: { isDark: boolean }) {
       setLastCompletedDate(today);
     }
 
-    // Check if stored tags have category field (version 2), if not, reinitialize
-    if (stored && version === '2') {
+    // Load stored tags and merge in any newly added defaults
+    if (stored) {
       try {
         const parsedTags = JSON.parse(stored);
-        // Verify at least one tag has a category field
-        if (parsedTags.length > 0 && parsedTags[0].category) {
-          setTags(parsedTags);
+        if (Array.isArray(parsedTags) && parsedTags.length > 0 && parsedTags[0].category) {
+          const mergedTags = version === TAGS_VERSION ? parsedTags : mergeStoredTags(parsedTags);
+          setTags(mergedTags);
+          localStorage.setItem('jobTags', JSON.stringify(mergedTags));
+          localStorage.setItem('jobTagsVersion', TAGS_VERSION);
           setIsInitialized(true);
           return;
         }
@@ -308,27 +391,17 @@ export default function JobTagTracker({ isDark }: { isDark: boolean }) {
   }, []);
 
   function initializeDefaultTags() {
-    const initialTags: JobTag[] = [];
-    Object.entries(CATEGORIZED_TAGS).forEach(([category, categoryTags]) => {
-      categoryTags.forEach((tag, index) => {
-        initialTags.push({
-          id: `tag-${initialTags.length}`,
-          tag,
-          category,
-          completed: false,
-        });
-      });
-    });
+    const initialTags = buildDefaultTags();
     setTags(initialTags);
     localStorage.setItem('jobTags', JSON.stringify(initialTags));
-    localStorage.setItem('jobTagsVersion', '2');
+    localStorage.setItem('jobTagsVersion', TAGS_VERSION);
   }
 
   // Save tags to localStorage whenever they change
   useEffect(() => {
     if (isInitialized && tags.length > 0) {
       localStorage.setItem('jobTags', JSON.stringify(tags));
-      localStorage.setItem('jobTagsVersion', '2');
+      localStorage.setItem('jobTagsVersion', TAGS_VERSION);
     }
   }, [tags, isInitialized]);
 
@@ -469,7 +542,14 @@ export default function JobTagTracker({ isDark }: { isDark: boolean }) {
         <div className="max-w-6xl mx-auto px-4 py-3">
           {/* Header Top Row - Title & Dark Mode Toggle */}
           <div className="flex items-center justify-between mb-3">
-            <h1 className={`text-2xl font-bold ${textClass}`}>Job Tag Tracker</h1>
+            <Image
+              src="/Logo.png"
+              alt="Job Tag Tracker"
+              width={220}
+              height={100}
+              priority
+              className="h-12 w-auto object-contain object-left"
+            />
             <div className="flex items-center gap-2">
               {todayCompleted > 0 && (
                 <div className={`text-sm px-3 py-1.5 rounded-lg ${darkMode ? 'bg-blue-900/30' : 'bg-blue-50'} text-blue-600`}>
@@ -602,8 +682,12 @@ export default function JobTagTracker({ isDark }: { isDark: boolean }) {
             <Button
               onClick={() => setShowClearDialog(true)}
               variant="outline"
-              className="border-red-500 text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10"
               size="sm"
+              className={`border-red-500 font-medium ${
+                darkMode
+                  ? 'bg-transparent text-red-400 hover:!bg-red-500/20 hover:!text-red-300'
+                  : 'bg-transparent text-red-600 hover:!bg-red-50 hover:!text-red-700'
+              }`}
             >
               Clear All
             </Button>

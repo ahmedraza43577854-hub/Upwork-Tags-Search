@@ -3,33 +3,44 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.app',
+  title: 'Job Tag Tracker | Track MERN, AI & Blockchain Job Skills',
+  description:
+    'Organize and track your job search skills with tags, categories, and progress insights for MERN, full stack, AI, and blockchain roles.',
+  applicationName: 'Job Tag Tracker',
+  keywords: [
+    'job tag tracker',
+    'MERN stack jobs',
+    'full stack developer',
+    'AI developer skills',
+    'blockchain jobs',
+    'web3 careers',
+    'freelance skills tracker',
+  ],
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    icon: '/Logo.png',
+    apple: '/Logo.png',
+  },
+  openGraph: {
+    title: 'Job Tag Tracker',
+    description:
+      'Track job-ready skills across MERN, AI, and blockchain with tags, filters, and progress tracking.',
+    type: 'website',
+    images: [{ url: '/Logo.png', alt: 'Job Tag Tracker logo' }],
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Job Tag Tracker',
+    description:
+      'Track job-ready skills across MERN, AI, and blockchain with tags, filters, and progress tracking.',
+    images: ['/Logo.png'],
   },
 }
 
 export const viewport: Viewport = {
   colorScheme: 'light dark',
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
+    { media: '(prefers-color-scheme: light)', color: '#4CAF50' },
+    { media: '(prefers-color-scheme: dark)', color: '#1e293b' },
   ],
 }
 
